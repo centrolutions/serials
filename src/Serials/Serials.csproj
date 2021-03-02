@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Jason Williams</Authors>
+    <Company></Company>
+    <Description>A library of types created to generate and mutate alpha-numeric sequences like serial numbers, invoices numbers, and record keeping reference numbers.</Description>
+    <Copyright>Jason Williams</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/centrolutions/serials</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/centrolutions/serials</RepositoryUrl>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
