@@ -41,5 +41,39 @@ namespace Serials.Common
 
 			return new string(result.ToArray());
 		}
+
+		public static ulong DecodeLong(string input)
+		{
+			if (string.IsNullOrWhiteSpace(input))
+				throw new ArgumentException("Cannot be null or empty", nameof(input));
+
+			var upperInput = input.ToUpper();
+			ulong result = 0;
+			for (int i = upperInput.Length - 1, j = 0; i >= 0; i--, j++)
+			{
+				var c = upperInput[i];
+				var alphabetIndex = (ulong)Alphabet.IndexOf(c);
+				var multiplier = (ulong)Math.Pow(36, j);
+				result += alphabetIndex * multiplier;
+			}
+			return result;
+		}
+
+		public static string Encode(ulong input)
+		{
+			if (input == 0)
+				return "0";
+
+			var currentVal = input;
+			var result = new Stack<char>();
+			while (currentVal != 0)
+			{
+				var index = (int)(currentVal % 36);
+				result.Push(Alphabet[index]);
+				currentVal /= 36;
+			}
+
+			return new string(result.ToArray());
+		}
 	}
 }

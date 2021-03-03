@@ -1,30 +1,29 @@
 ﻿using Serials.Common;
 using System;
-using System.Numerics;
 
 namespace Serials
 {
-    public class SerialNumber: ISerialNumber
+    public class SmallSerialNumber : ISerialNumber
     {
-        public BigInteger NumericValue { get; private set; }
+        public ulong NumericValue { get; private set; }
 
-        public SerialNumber(string initialValue)
+        public SmallSerialNumber(string initialValue)
         {
-            NumericValue = Base36.Decode(initialValue);
+            NumericValue = Base36.DecodeLong(initialValue);
         }
-        public SerialNumber(BigInteger initialValue)
+        public SmallSerialNumber(ulong initialValue)
         {
             NumericValue = initialValue;
         }
 
         public void IncreaseBy(int increase)
         {
-            NumericValue += increase;
+            NumericValue += (ulong)increase;
         }
 
         public void DecreaseBy(int decrease)
         {
-            NumericValue -= decrease;
+            NumericValue -= (ulong)decrease;
         }
 
         public override bool Equals(object obj)
@@ -46,34 +45,34 @@ namespace Serials
             return (string)Base36.Encode(NumericValue);
         }
 
-        public static SerialNumber operator+ (SerialNumber a, SerialNumber b)
+        public static SmallSerialNumber operator +(SmallSerialNumber a, SmallSerialNumber b)
         {
-            var result = new SerialNumber((a?.NumericValue ?? 0) + (b?.NumericValue ?? 0));
+            var result = new SmallSerialNumber((a?.NumericValue ?? 0) + (b?.NumericValue ?? 0));
             return result;
         }
 
-        public static SerialNumber operator+ (SerialNumber a, int b)
+        public static SmallSerialNumber operator +(SmallSerialNumber a, int b)
         {
-            var result = new SerialNumber((a?.NumericValue ?? 0) + (ulong)b);
+            var result = new SmallSerialNumber((a?.NumericValue ?? 0) + (ulong)b);
             return result;
         }
 
-        public static SerialNumber operator- (SerialNumber a, SerialNumber b)
+        public static SmallSerialNumber operator -(SmallSerialNumber a, SmallSerialNumber b)
         {
             if ((b?.NumericValue ?? 0) > (a?.NumericValue ?? 0))
                 throw new OverflowException("Negative serial numbers are not supported.");
 
-            var result = new SerialNumber((a?.NumericValue ?? 0) - (b?.NumericValue ?? 0));
+            var result = new SmallSerialNumber((a?.NumericValue ?? 0) - (b?.NumericValue ?? 0));
             return result;
         }
 
-        public static SerialNumber operator- (SerialNumber a, int b)
+        public static SmallSerialNumber operator -(SmallSerialNumber a, int b)
         {
             if ((ulong)b > (a?.NumericValue ?? 0))
                 throw new OverflowException("Negative serial numbers are not supported.");
 
             var numericValue = (a?.NumericValue ?? 0) - (ulong)b;
-            var result = new SerialNumber(numericValue);
+            var result = new SmallSerialNumber(numericValue);
             return result;
         }
     }

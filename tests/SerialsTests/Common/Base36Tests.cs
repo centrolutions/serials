@@ -57,7 +57,8 @@ namespace SerialsTests.Common
         [InlineData(0, "0")]
         public void Encode_ReturnsProperString_WhenPassedValueBelow36(ulong input, string expected)
         {
-            var result = Base36.Encode(input);
+            var bigInput = new BigInteger(input);
+            var result = Base36.Encode(bigInput);
 
             Assert.Equal(expected, result);
         }
@@ -67,7 +68,8 @@ namespace SerialsTests.Common
         [InlineData(665174629, "B01011")]
         public void Encode_ReturnsEncodedString_WhenPassedLargerNumbers(ulong input, string expected)
         {
-            var result = Base36.Encode(input);
+            var bigInput = new BigInteger(input);
+            var result = Base36.Encode(bigInput);
 
             Assert.Equal(expected, result);
         }
@@ -90,6 +92,68 @@ namespace SerialsTests.Common
             var expected = BigInteger.Parse("999349339222911192293394455594493392229339444955949119293848475439");
 
             Assert.Equal(expected, decoded);
+        }
+
+        [Theory]
+        [InlineData("0", 0)]
+        [InlineData("1", 1)]
+        [InlineData("A", 10)]
+        [InlineData("Z", 35)]
+        public void DecodeLong_ReturnsCorrectULong_WhenPassedASingleCharacter(string input, ulong expected)
+        {
+            BigInteger result = Base36.DecodeLong(input);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("00", 0)]
+        [InlineData("10", 36)]
+        [InlineData("B01011", 665174629)]
+        public void DecodeLong_ReturnsCorrectULong_WhenPassedMultipleCharacterString(string input, ulong expected)
+        {
+            BigInteger result = Base36.DecodeLong(input);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void DecodeLong_ReturnsCorrectULong_RegardlessOfCapitalization()
+        {
+            BigInteger capitalResult = Base36.DecodeLong("ABC");
+            BigInteger lowerResult = Base36.DecodeLong("abc");
+
+            Assert.Equal(capitalResult, lowerResult);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void DecodeLong_ThrowsArgumentException_WhenPassedEmptyOrNull(string input)
+        {
+            Assert.Throws<ArgumentException>(() => Base36.DecodeLong(input));
+        }
+
+        [Theory]
+        [InlineData(35, "Z")]
+        [InlineData(10, "A")]
+        [InlineData(1, "1")]
+        [InlineData(0, "0")]
+        public void Encode_ReturnsProperString_WhenPassedLongValueBelow36(ulong input, string expected)
+        {
+            var result = Base36.Encode(input);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(36, "10")]
+        [InlineData(665174629, "B01011")]
+        public void Encode_ReturnsEncodedString_WhenPassedLargerLongNumbers(ulong input, string expected)
+        {
+            var result = Base36.Encode(input);
+
+            Assert.Equal(expected, result);
         }
     }
 }
