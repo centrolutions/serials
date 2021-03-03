@@ -1,4 +1,4 @@
-name: .NET
+name: ci-build
 
 on:
   push:
