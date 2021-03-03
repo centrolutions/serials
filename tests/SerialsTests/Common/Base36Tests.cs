@@ -1,6 +1,7 @@
 ﻿using Serials.Common;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace SerialsTests.Common
         [InlineData("Z", 35)]
         public void Decode_ReturnsCorrectULong_WhenPassedASingleCharacter(string input, ulong expected)
         {
-            ulong result = Base36.Decode(input);
+            BigInteger result = Base36.Decode(input);
 
             Assert.Equal(expected, result);
         }
@@ -26,7 +27,7 @@ namespace SerialsTests.Common
         [InlineData("B01011", 665174629)]
         public void Decode_ReturnsCorrectULong_WhenPassedMultipleCharacterString(string input, ulong expected)
         {
-            ulong result = Base36.Decode(input);
+            BigInteger result = Base36.Decode(input);
 
             Assert.Equal(expected, result);
         }
@@ -34,8 +35,8 @@ namespace SerialsTests.Common
         [Fact]
         public void Decode_ReturnsCorrectULong_RegardlessOfCapitalization()
         {
-            ulong capitalResult = Base36.Decode("ABC");
-            ulong lowerResult = Base36.Decode("abc");
+            BigInteger capitalResult = Base36.Decode("ABC");
+            BigInteger lowerResult = Base36.Decode("abc");
 
             Assert.Equal(capitalResult, lowerResult);
         }
@@ -69,6 +70,26 @@ namespace SerialsTests.Common
             var result = Base36.Encode(input);
 
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Encode_CanEncodeToAString_WhenPassedVeryLargeNumbers()
+        {
+            var big = BigInteger.Parse("999349339222911192293394455594493392229339444955949119293848475438");
+
+            var result = Base36.Encode(big);
+
+            Assert.Equal("4BCN8OTY5FAA7CN4TSGTXJ93D0XLNDXFS24MOK9MZOU", result);
+        }
+
+        [Fact]
+        public void Decode_CanDecodeToBigInteger_WhenPassedVeryLargeSerialNumber()
+        {
+            var decoded = Base36.Decode("4BCN8OTY5FAA7CN4TSGTXJ93D0XLNDXFS24MOK9MZOV");
+
+            var expected = BigInteger.Parse("999349339222911192293394455594493392229339444955949119293848475439");
+
+            Assert.Equal(expected, decoded);
         }
     }
 }

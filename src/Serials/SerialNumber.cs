@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,13 +10,13 @@ namespace Serials
 {
     public class SerialNumber: ISerialNumber
     {
-        public ulong NumericValue { get; private set; }
+        public BigInteger NumericValue { get; private set; }
 
         public SerialNumber(string initialValue)
         {
             NumericValue = Base36.Decode(initialValue);
         }
-        public SerialNumber(ulong initialValue)
+        public SerialNumber(BigInteger initialValue)
         {
             NumericValue = initialValue;
         }
