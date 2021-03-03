@@ -9,7 +9,13 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/centrolutions/serials</PackageProjectUrl>
     <RepositoryUrl>https://github.com/centrolutions/serials</RepositoryUrl>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Breaking changes:
+Removed operator overloads in favor of increase and decrease methods in the class.
+
+Other changes:
+Added SmallSerialNumber for those concerned about performance issues presented by BigInteger.</PackageReleaseNotes>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
 </Project>
