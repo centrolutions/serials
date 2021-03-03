@@ -1,80 +1,35 @@
 ﻿using Serials.Common;
 using System;
 using System.Numerics;
+using System.Text.RegularExpressions;
 
 namespace Serials
 {
-    public class SerialNumber: ISerialNumber
+    public class SerialNumber: SerialNumberBase<BigInteger>
     {
-        public BigInteger NumericValue { get; private set; }
-
-        public SerialNumber(string initialValue)
+        public SerialNumber(string initialValue): this(Base36.Decode(initialValue))
         {
-            NumericValue = Base36.Decode(initialValue);
+            var alphaNumericsOnly = new Regex("^[a-zA-Z0-9]+$");
+            if (!alphaNumericsOnly.IsMatch(initialValue))
+                throw new ArgumentException("Only alpha-numeric characters are supported");
         }
-        public SerialNumber(BigInteger initialValue)
+        public SerialNumber(BigInteger initialValue): base(initialValue)
         {
-            NumericValue = initialValue;
         }
 
-        public void IncreaseBy(int increase)
+        public override void IncreaseBy(int increase)
         {
             NumericValue += increase;
         }
 
-        public void DecreaseBy(int decrease)
+        public override void DecreaseBy(int decrease)
         {
             NumericValue -= decrease;
         }
 
-        public override bool Equals(object obj)
-        {
-            var serial = obj as SerialNumber;
-            if (obj == null)
-                return false;
-
-            return this.NumericValue.Equals(serial.NumericValue);
-        }
-
-        public override int GetHashCode()
-        {
-            return NumericValue.GetHashCode();
-        }
-
         public override string ToString()
         {
-            return (string)Base36.Encode(NumericValue);
-        }
-
-        public static SerialNumber operator+ (SerialNumber a, SerialNumber b)
-        {
-            var result = new SerialNumber((a?.NumericValue ?? 0) + (b?.NumericValue ?? 0));
-            return result;
-        }
-
-        public static SerialNumber operator+ (SerialNumber a, int b)
-        {
-            var result = new SerialNumber((a?.NumericValue ?? 0) + (ulong)b);
-            return result;
-        }
-
-        public static SerialNumber operator- (SerialNumber a, SerialNumber b)
-        {
-            if ((b?.NumericValue ?? 0) > (a?.NumericValue ?? 0))
-                throw new OverflowException("Negative serial numbers are not supported.");
-
-            var result = new SerialNumber((a?.NumericValue ?? 0) - (b?.NumericValue ?? 0));
-            return result;
-        }
-
-        public static SerialNumber operator- (SerialNumber a, int b)
-        {
-            if ((ulong)b > (a?.NumericValue ?? 0))
-                throw new OverflowException("Negative serial numbers are not supported.");
-
-            var numericValue = (a?.NumericValue ?? 0) - (ulong)b;
-            var result = new SerialNumber(numericValue);
-            return result;
+            return Base36.Encode(NumericValue);
         }
     }
 }

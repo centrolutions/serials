@@ -5,16 +5,16 @@ using Xunit;
 
 namespace SerialsTests
 {
-    public class SerialNumberTests
+    public class SmallSerialNumberTests
     {
-        private readonly SerialNumber _sut = new SerialNumber("A12345B");
+        private readonly SmallSerialNumber _sut = new SmallSerialNumber("A12345B");
 
         [Fact]
         public void Constructor_InitializedWithString_SetsNumericValue()
         {
             var initialValue = "N4434";
             var expected = Base36.Decode(initialValue);
-            var sut = new SerialNumber(initialValue);
+            var sut = new SmallSerialNumber(initialValue);
 
             Assert.Equal(expected, sut.NumericValue);
         }
@@ -22,7 +22,7 @@ namespace SerialsTests
         [Fact]
         public void Constructor_ThrowsArgumentException_WhenInvalidCharactersArePassed()
         {
-            Assert.Throws<ArgumentException>(() => new SerialNumber("ABC-123"));
+            Assert.Throws<ArgumentException>(() => new SmallSerialNumber("ABC-123"));
         }
 
         [Theory]
@@ -48,7 +48,7 @@ namespace SerialsTests
         [Fact]
         public void Equals_ReturnsTrue_WhenTwoValuesAreEqual()
         {
-            var serial = new SerialNumber(_sut.NumericValue);
+            var serial = new SmallSerialNumber(_sut.NumericValue);
 
             var result = _sut.Equals(serial);
 
@@ -58,7 +58,7 @@ namespace SerialsTests
         [Fact]
         public void Equals_ReturnsFalse_WhenTwoValuesAreNotEqual()
         {
-            var serial = new SerialNumber(1);
+            var serial = new SmallSerialNumber(1);
 
             var result = _sut.Equals(serial);
 
@@ -68,7 +68,7 @@ namespace SerialsTests
         [Fact]
         public void Equals_ReturnsFalse_WhenComparedValueIsNull()
         {
-            SerialNumber serial = null;
+            SmallSerialNumber serial = null;
 
             var result = _sut.Equals(serial);
 
@@ -76,9 +76,9 @@ namespace SerialsTests
         }
 
         [Fact]
-        public void GetHashCode_ReturnsSameValue_WhenBothSerialNumbersAreEqual()
+        public void GetHashCode_ReturnsSameValue_WhenBothSmallSerialNumbersAreEqual()
         {
-            var serial = new SerialNumber(_sut.NumericValue);
+            var serial = new SmallSerialNumber(_sut.NumericValue);
             var expected = serial.GetHashCode();
 
             var result = _sut.GetHashCode();
