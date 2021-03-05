@@ -12,11 +12,13 @@ namespace Serials.Common
     {
         protected string Alphabet { get; private set; }
         protected Regex Validator { get; private set; }
+        private readonly int AlphabetLength;
 
         protected EncoderBase(string alphabet, Regex validator)
         {
             Alphabet = alphabet;
             Validator = validator;
+            AlphabetLength = Alphabet.Length;
         }
 
         public BigInteger Decode(string encoded)
@@ -30,7 +32,7 @@ namespace Serials.Common
             {
                 var c = upperInput[i];
                 var alphabetIndex = Alphabets.AlphaNumeric.IndexOf(c);
-                var multiplier = BigInteger.Pow(36, j);
+                var multiplier = BigInteger.Pow(AlphabetLength, j);
                 result += (alphabetIndex * multiplier);
             }
             return result;
@@ -47,7 +49,7 @@ namespace Serials.Common
             {
                 var c = upperInput[i];
                 var alphabetIndex = (ulong)Alphabets.AlphaNumeric.IndexOf(c);
-                var multiplier = (ulong)Math.Pow(36, j);
+                var multiplier = (ulong)Math.Pow(AlphabetLength, j);
                 result += alphabetIndex * multiplier;
             }
             return result;
@@ -62,9 +64,9 @@ namespace Serials.Common
             var result = new Stack<char>();
             while (currentVal != 0)
             {
-                var index = (int)(currentVal % 36);
+                var index = (int)(currentVal % AlphabetLength);
                 result.Push(Alphabets.AlphaNumeric[index]);
-                currentVal /= 36;
+                currentVal /= AlphabetLength;
             }
 
             return new string(result.ToArray());
@@ -79,9 +81,9 @@ namespace Serials.Common
             var result = new Stack<char>();
             while (currentVal != 0)
             {
-                var index = (int)(currentVal % 36);
+                var index = (int)(currentVal % (ulong)AlphabetLength);
                 result.Push(Alphabets.AlphaNumeric[index]);
-                currentVal /= 36;
+                currentVal /= (ulong)AlphabetLength;
             }
 
             return new string(result.ToArray());
