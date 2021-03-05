@@ -7,13 +7,12 @@ namespace Serials
 {
     public class SerialNumber: SerialNumberBase<BigInteger>
     {
-        public SerialNumber(string initialValue): this(Base36.Decode(initialValue))
+        public SerialNumber(string initialValue, SerialNumberConfiguration configuration): this(configuration.Encoder.Decode(initialValue), configuration)
         {
-            var alphaNumericsOnly = new Regex("^[a-zA-Z0-9]+$");
-            if (!alphaNumericsOnly.IsMatch(initialValue))
-                throw new ArgumentException("Only alpha-numeric characters are supported");
+            if (!configuration.Encoder.CanDecode(initialValue))
+                throw new ArgumentException($"Invalid characters were found in the {nameof(initialValue)} argument that the selected encoder cannot decode.");
         }
-        public SerialNumber(BigInteger initialValue): base(initialValue)
+        public SerialNumber(BigInteger initialValue, SerialNumberConfiguration configuration): base(initialValue, configuration)
         {
         }
 
@@ -29,7 +28,7 @@ namespace Serials
 
         public override string ToString()
         {
-            return Base36.Encode(NumericValue);
+            return Configuration.Encoder.Encode(NumericValue);
         }
     }
 }

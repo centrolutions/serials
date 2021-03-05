@@ -7,14 +7,23 @@ namespace SerialsTests
 {
     public class SerialNumberTests
     {
-        private readonly SerialNumber _sut = new SerialNumber("A12345B");
+        private readonly IEncoder _encoder;
+        private readonly SerialNumberConfiguration _config;
+        private readonly SerialNumber _sut;
+
+        public SerialNumberTests()
+        {
+            _encoder = new Base36Encoder();
+            _config = new SerialNumberConfiguration(_encoder);
+            _sut = new SerialNumber("A12345B", _config);
+        }
 
         [Fact]
         public void Constructor_InitializedWithString_SetsNumericValue()
         {
             var initialValue = "N4434";
-            var expected = Base36.Decode(initialValue);
-            var sut = new SerialNumber(initialValue);
+            var expected = _encoder.Decode(initialValue);
+            var sut = new SerialNumber(initialValue, _config);
 
             Assert.Equal(expected, sut.NumericValue);
         }
@@ -22,7 +31,7 @@ namespace SerialsTests
         [Fact]
         public void Constructor_ThrowsArgumentException_WhenInvalidCharactersArePassed()
         {
-            Assert.Throws<ArgumentException>(() => new SerialNumber("ABC-123"));
+            Assert.Throws<ArgumentException>(() => new SerialNumber("ABC-123", _config));
         }
 
         [Theory]
@@ -48,7 +57,7 @@ namespace SerialsTests
         [Fact]
         public void Equals_ReturnsTrue_WhenTwoValuesAreEqual()
         {
-            var serial = new SerialNumber(_sut.NumericValue);
+            var serial = new SerialNumber(_sut.NumericValue, _config);
 
             var result = _sut.Equals(serial);
 
@@ -58,7 +67,7 @@ namespace SerialsTests
         [Fact]
         public void Equals_ReturnsFalse_WhenTwoValuesAreNotEqual()
         {
-            var serial = new SerialNumber(1);
+            var serial = new SerialNumber(1, _config);
 
             var result = _sut.Equals(serial);
 
@@ -78,7 +87,7 @@ namespace SerialsTests
         [Fact]
         public void GetHashCode_ReturnsSameValue_WhenBothSerialNumbersAreEqual()
         {
-            var serial = new SerialNumber(_sut.NumericValue);
+            var serial = new SerialNumber(_sut.NumericValue, _config);
             var expected = serial.GetHashCode();
 
             var result = _sut.GetHashCode();
@@ -89,7 +98,7 @@ namespace SerialsTests
         [Fact]
         public void ToString_ReturnsBase36String_WhenCalled()
         {
-            var expected = Base36.Encode(_sut.NumericValue);
+            var expected = _encoder.Encode(_sut.NumericValue);
 
             Assert.Equal(expected, _sut.ToString());
         }

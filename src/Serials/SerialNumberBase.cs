@@ -1,12 +1,16 @@
-﻿namespace Serials
+﻿using Serials.Common;
+
+namespace Serials
 {
     public abstract class SerialNumberBase<T> : ISerialNumber
     {
         public T NumericValue { get; protected set; }
+        protected SerialNumberConfiguration Configuration { get; set; }
 
-        public SerialNumberBase(T initialValue)
+        public SerialNumberBase(T initialValue, SerialNumberConfiguration configuration)
         {
             NumericValue = initialValue;
+            Configuration = configuration;
         }
 
         public abstract void DecreaseBy(int decrease);

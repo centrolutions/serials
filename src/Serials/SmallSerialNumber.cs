@@ -6,13 +6,12 @@ namespace Serials
 {
     public class SmallSerialNumber : SerialNumberBase<ulong>
     {
-        public SmallSerialNumber(string initialValue) : this(Base36.DecodeLong(initialValue))
+        public SmallSerialNumber(string initialValue, SerialNumberConfiguration configuration) : this(configuration.Encoder.DecodeULong(initialValue), configuration)
         {
-            var alphaNumericsOnly = new Regex("^[a-zA-Z0-9]+$");
-            if (!alphaNumericsOnly.IsMatch(initialValue))
-                throw new ArgumentException("Only alpha-numeric characters are supported");
+            if (!configuration.Encoder.CanDecode(initialValue))
+                throw new ArgumentException($"Invalid characters were found in the {nameof(initialValue)} argument that the selected encoder cannot decode.");
         }
-        public SmallSerialNumber(ulong initialValue) : base(initialValue)
+        public SmallSerialNumber(ulong initialValue, SerialNumberConfiguration configuration) : base(initialValue, configuration)
         {
         }
 
@@ -28,7 +27,7 @@ namespace Serials
 
         public override string ToString()
         {
-            return Base36.Encode(NumericValue);
+            return Configuration.Encoder.Encode(NumericValue);
         }
     }
 }
