@@ -14,7 +14,7 @@ Minimum Requirements: **.NET Standard 2.0**.
 
 ## Usage
 ```csharp
-var config = new SerialNumberConfiguration(new Base36Encoder());
+var config = new SerialNumberConfiguration();
 var sn = new SerialNumber("INV000123", config);
 sn.IncreaseBy(1);
 var newInvoiceNumber = sn.ToString(); //INV000124

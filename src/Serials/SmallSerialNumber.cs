@@ -14,6 +14,7 @@ namespace Serials
         public SmallSerialNumber(ulong initialValue, SerialNumberConfiguration configuration) : base(initialValue, configuration)
         {
         }
+        public SmallSerialNumber(int initialValue, SerialNumberConfiguration configuration): this((ulong)initialValue, configuration) { }
 
         public override void IncreaseBy(int increase)
         {

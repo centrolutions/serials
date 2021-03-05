@@ -15,6 +15,8 @@ namespace Serials
         public SerialNumber(BigInteger initialValue, SerialNumberConfiguration configuration): base(initialValue, configuration)
         {
         }
+        public SerialNumber(int initialValue, SerialNumberConfiguration configuration) : this((BigInteger)initialValue, configuration) { }
+        
 
         public override void IncreaseBy(int increase)
         {
