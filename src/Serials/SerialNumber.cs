@@ -30,7 +30,10 @@ namespace Serials
 
         public override string ToString()
         {
-            return Configuration.Encoder.Encode(NumericValue);
+            var encoded = Configuration.Encoder.Encode(NumericValue);
+            if (Configuration.MinimumLength.HasValue && encoded.Length < Configuration.MinimumLength.Value)
+                encoded = encoded.PadLeft(Configuration.MinimumLength.Value, Configuration.PadCharacter);
+            return encoded;
         }
     }
 }

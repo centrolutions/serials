@@ -8,12 +8,14 @@ namespace Serials.Common
     {
         public IEncoder Encoder { get; private set; }
         public int? MinimumLength { get; set; }
+        public char PadCharacter { get; set; }
 
         public SerialNumberConfiguration() : this(new Base36Encoder()) { }
 
         public SerialNumberConfiguration(IEncoder encoder)
         {
             Encoder = encoder;
+            PadCharacter = '0';
         }
     }
 }

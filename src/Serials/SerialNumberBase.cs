@@ -30,5 +30,6 @@ namespace Serials
         {
             return NumericValue.GetHashCode();
         }
+
     }
 }

@@ -83,5 +83,27 @@ namespace SerialsTests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ToString_ReturnsProperLength_WhenMinimumLengthIsSetInConfiguration()
+        {
+            var config = new SerialNumberConfiguration() { MinimumLength = 10, PadCharacter = '0' };
+            var serial = Activator.CreateInstance(typeof(TSerialNumber), 1, config);
+
+            var result = serial.ToString();
+
+            Assert.Equal(10, result.Length);
+        }
+
+        [Fact]
+        public void ToString_ReturnsUnpaddedString_WhenNoMinimumLengthIsSetInConfiguration()
+        {
+            var config = new SerialNumberConfiguration();
+            var serial = Activator.CreateInstance(typeof(TSerialNumber), 1, config);
+
+            var result = serial.ToString();
+
+            Assert.Equal(1, result.Length);
+        }
     }
 }
