@@ -11,11 +11,13 @@
     <RepositoryUrl>https://github.com/centrolutions/serials</RepositoryUrl>
     <PackageReleaseNotes>Breaking changes:
 Removed operator overloads in favor of increase and decrease methods in the class.
+Added SerialNumberConfiguration to support and toggle ongoing feature enhancements
 
 Other changes:
 Added SmallSerialNumber for those concerned about performance issues presented by BigInteger.</PackageReleaseNotes>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
 </Project>
