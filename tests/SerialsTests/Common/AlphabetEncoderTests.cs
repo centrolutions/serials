@@ -7,15 +7,15 @@ using Xunit;
 
 namespace SerialsTests.Common
 {
-    public class Base36EncoderTests
+    public class AlphabetEncoderTests
     {
-        private readonly Base36Encoder _sut = new Base36Encoder();
+        private readonly AlphabetEncoder _sut = new AlphabetEncoder();
 
         [Theory]
-        [InlineData("0", 0)]
-        [InlineData("1", 1)]
-        [InlineData("A", 10)]
-        [InlineData("Z", 35)]
+        [InlineData("A", 0)]
+        [InlineData("B", 1)]
+        [InlineData("K", 10)]
+        [InlineData("Z", 25)]
         public void Decode_ReturnsCorrectBigInteger_WhenPassedASingleCharacter(string input, ulong expected)
         {
             BigInteger result = _sut.Decode(input);
@@ -24,9 +24,9 @@ namespace SerialsTests.Common
         }
 
         [Theory]
-        [InlineData("00", 0)]
-        [InlineData("10", 36)]
-        [InlineData("B01011", 665174629)]
+        [InlineData("AA", 0)]
+        [InlineData("BA", 26)]
+        [InlineData("ZABABB", 297052003)]
         public void Decode_ReturnsCorrectBigInteger_WhenPassedMultipleCharacterString(string input, ulong expected)
         {
             BigInteger result = _sut.Decode(input);
@@ -53,11 +53,10 @@ namespace SerialsTests.Common
 
 
         [Theory]
-        [InlineData(35, "Z")]
-        [InlineData(10, "A")]
-        [InlineData(1, "1")]
-        [InlineData(0, "0")]
-        public void Encode_ReturnsProperString_WhenPassedValueBelow36(ulong input, string expected)
+        [InlineData(25, "Z")]
+        [InlineData(0, "A")]
+        [InlineData(1, "B")]
+        public void Encode_ReturnsProperString_WhenPassedValueBelow26(ulong input, string expected)
         {
             var bigInput = new BigInteger(input);
 
@@ -67,8 +66,8 @@ namespace SerialsTests.Common
         }
 
         [Theory]
-        [InlineData(36, "10")]
-        [InlineData(665174629, "B01011")]
+        [InlineData(26, "BA")]
+        [InlineData(665174629, "CDZPQDP")]
         public void Encode_ReturnsEncodedString_WhenPassedLargerNumbers(ulong input, string expected)
         {
             var bigInput = new BigInteger(input);
@@ -85,7 +84,7 @@ namespace SerialsTests.Common
 
             var result = _sut.Encode(big);
 
-            Assert.Equal("4BCN8OTY5FAA7CN4TSGTXJ93D0XLNDXFS24MOK9MZOU", result);
+            Assert.Equal("IDURTFPLWMLOKNSQWSPJSUJARYERKCFWWDYKKESWNYVCCKC", result);
         }
 
         [Fact]
@@ -93,16 +92,16 @@ namespace SerialsTests.Common
         {
             var expected = BigInteger.Parse("999349339222911192293394455594493392229339444955949119293848475439");
 
-            var decoded = _sut.Decode("4BCN8OTY5FAA7CN4TSGTXJ93D0XLNDXFS24MOK9MZOV");
-            
+            var decoded = _sut.Decode("IDURTFPLWMLOKNSQWSPJSUJARYERKCFWWDYKKESWNYVCCKD");
+
             Assert.Equal(expected, decoded);
         }
 
         [Theory]
-        [InlineData("0", 0)]
-        [InlineData("1", 1)]
-        [InlineData("A", 10)]
-        [InlineData("Z", 35)]
+        [InlineData("A", 0)]
+        [InlineData("B", 1)]
+        [InlineData("K", 10)]
+        [InlineData("Z", 25)]
         public void DecodeULong_ReturnsCorrectULong_WhenPassedASingleCharacter(string input, ulong expected)
         {
             BigInteger result = _sut.DecodeULong(input);
@@ -111,9 +110,9 @@ namespace SerialsTests.Common
         }
 
         [Theory]
-        [InlineData("00", 0)]
-        [InlineData("10", 36)]
-        [InlineData("B01011", 665174629)]
+        [InlineData("AA", 0)]
+        [InlineData("BA", 26)]
+        [InlineData("ZABABB", 297052003)]
         public void DecodeULong_ReturnsCorrectULong_WhenPassedMultipleCharacterString(string input, ulong expected)
         {
             BigInteger result = _sut.DecodeULong(input);
@@ -139,11 +138,11 @@ namespace SerialsTests.Common
         }
 
         [Theory]
-        [InlineData(35, "Z")]
-        [InlineData(10, "A")]
-        [InlineData(1, "1")]
-        [InlineData(0, "0")]
-        public void Encode_ReturnsProperString_WhenPassedLongValueBelow36(ulong input, string expected)
+        [InlineData(25, "Z")]
+        [InlineData(10, "K")]
+        [InlineData(1, "B")]
+        [InlineData(0, "A")]
+        public void Encode_ReturnsProperString_WhenPassedLongValueBelow26(ulong input, string expected)
         {
             var result = _sut.Encode(input);
 
@@ -151,8 +150,8 @@ namespace SerialsTests.Common
         }
 
         [Theory]
-        [InlineData(36, "10")]
-        [InlineData(665174629, "B01011")]
+        [InlineData(26, "BA")]
+        [InlineData(297052003, "ZABABB")]
         public void Encode_ReturnsEncodedString_WhenPassedLargerLongNumbers(ulong input, string expected)
         {
             var result = _sut.Encode(input);

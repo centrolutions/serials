@@ -6,8 +6,9 @@ namespace Serials
 {
     public class SmallSerialNumber : SerialNumberBase<ulong>
     {
-        public SmallSerialNumber(string initialValue, SerialNumberConfiguration configuration) : this(configuration.Encoder.DecodeULong(initialValue), configuration)
+        public SmallSerialNumber(string initialValue, SerialNumberConfiguration configuration) : this(Decode(initialValue, configuration), configuration)
         {
+            initialValue = RemovePrefix(initialValue, configuration);
             if (!configuration.Encoder.CanDecode(initialValue))
                 throw new ArgumentException($"Invalid characters were found in the {nameof(initialValue)} argument that the selected encoder cannot decode.");
         }
@@ -32,6 +33,12 @@ namespace Serials
             encoded = ApplyPrefix(encoded);
 
             return encoded;
+        }
+
+        private static ulong Decode(string initialValue, SerialNumberConfiguration config)
+        {
+            initialValue = RemovePrefix(initialValue, config);
+            return config.Encoder.DecodeULong(initialValue);
         }
     }
 }

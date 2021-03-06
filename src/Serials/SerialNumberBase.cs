@@ -54,5 +54,12 @@ namespace Serials
                 encoded = encoded.PadLeft(Configuration.MinimumLength.Value, Configuration.PadCharacter);
             return encoded;
         }
+
+        protected static string RemovePrefix(string encoded, SerialNumberConfiguration config)
+        {
+            if (!string.IsNullOrWhiteSpace(config.Prefix) && encoded.StartsWith(config.Prefix))
+                encoded = encoded.Substring(config.Prefix.Length);
+            return encoded;
+        }
     }
 }

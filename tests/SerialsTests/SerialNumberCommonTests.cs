@@ -13,16 +13,6 @@ namespace SerialsTests
         protected SerialNumberConfiguration _config;
         protected SerialNumberBase<TNumber> _sut;
 
-        [Fact]
-        public void Constructor_InitializedWithString_SetsNumericValue()
-        {
-            var initialValue = "N4434";
-            var expected = _encoder.Decode(initialValue);
-            var sut = new SerialNumber(initialValue, _config);
-
-            Assert.Equal(expected, sut.NumericValue);
-        }
-
         [Theory]
         [InlineData(1, "A12345C")]
         [InlineData(10, "A12345L")]

@@ -31,7 +31,7 @@ namespace Serials.Common
             for (int i = upperInput.Length - 1, j = 0; i >= 0; i--, j++)
             {
                 var c = upperInput[i];
-                var alphabetIndex = Alphabets.AlphaNumeric.IndexOf(c);
+                var alphabetIndex = Alphabet.IndexOf(c);
                 var multiplier = BigInteger.Pow(AlphabetLength, j);
                 result += (alphabetIndex * multiplier);
             }
@@ -48,7 +48,7 @@ namespace Serials.Common
             for (int i = upperInput.Length - 1, j = 0; i >= 0; i--, j++)
             {
                 var c = upperInput[i];
-                var alphabetIndex = (ulong)Alphabets.AlphaNumeric.IndexOf(c);
+                var alphabetIndex = (ulong)Alphabet.IndexOf(c);
                 var multiplier = (ulong)Math.Pow(AlphabetLength, j);
                 result += alphabetIndex * multiplier;
             }
@@ -58,14 +58,14 @@ namespace Serials.Common
         public string Encode(BigInteger decoded)
         {
             if (decoded == 0)
-                return "0";
+                return Alphabet[0].ToString();
 
             var currentVal = decoded;
             var result = new Stack<char>();
             while (currentVal != 0)
             {
                 var index = (int)(currentVal % AlphabetLength);
-                result.Push(Alphabets.AlphaNumeric[index]);
+                result.Push(Alphabet[index]);
                 currentVal /= AlphabetLength;
             }
 
@@ -75,14 +75,14 @@ namespace Serials.Common
         public string Encode(ulong decoded)
         {
             if (decoded == 0)
-                return "0";
+                return Alphabet[0].ToString();
 
             var currentVal = decoded;
             var result = new Stack<char>();
             while (currentVal != 0)
             {
                 var index = (int)(currentVal % (ulong)AlphabetLength);
-                result.Push(Alphabets.AlphaNumeric[index]);
+                result.Push(Alphabet[index]);
                 currentVal /= (ulong)AlphabetLength;
             }
 
