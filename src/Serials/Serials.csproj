@@ -20,4 +20,8 @@ Added SmallSerialNumber for those concerned about performance issues presented b
     <Version>1.2.0</Version>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
 </Project>

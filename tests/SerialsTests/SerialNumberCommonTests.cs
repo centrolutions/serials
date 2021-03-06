@@ -105,5 +105,16 @@ namespace SerialsTests
 
             Assert.Equal(1, result.Length);
         }
+        
+        [Fact]
+        public void ToString_ReturnsNumberWithPrefix_WhenPrefixIsPassedInConfig()
+        {
+            var config = new SerialNumberConfiguration() { Prefix = "PRE-" };
+            var serial = Activator.CreateInstance(typeof(TSerialNumber), 1, config);
+
+            var result = serial.ToString();
+
+            Assert.Equal("PRE-1", result);
+        }
     }
 }

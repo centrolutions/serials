@@ -28,8 +28,9 @@ namespace Serials
         public override string ToString()
         {
             var encoded = Configuration.Encoder.Encode(NumericValue);
-            if (Configuration.MinimumLength.HasValue && encoded.Length < Configuration.MinimumLength.Value)
-                encoded = encoded.PadLeft(Configuration.MinimumLength.Value, Configuration.PadCharacter);
+            encoded = ApplyMinimumLength(encoded);
+            encoded = ApplyPrefix(encoded);
+
             return encoded;
         }
     }
