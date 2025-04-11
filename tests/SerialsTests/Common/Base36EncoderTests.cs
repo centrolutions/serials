@@ -1,8 +1,6 @@
 ﻿using Serials.Common;
 using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 using Xunit;
 
 namespace SerialsTests.Common
@@ -94,7 +92,7 @@ namespace SerialsTests.Common
             var expected = BigInteger.Parse("999349339222911192293394455594493392229339444955949119293848475439");
 
             var decoded = _sut.Decode("4BCN8OTY5FAA7CN4TSGTXJ93D0XLNDXFS24MOK9MZOV");
-            
+
             Assert.Equal(expected, decoded);
         }
 

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Serials.Common
 {
@@ -12,13 +9,16 @@ namespace Serials.Common
     {
         protected string Alphabet { get; private set; }
         protected Regex Validator { get; private set; }
-        private readonly int AlphabetLength;
+
+        readonly int _alphabetLength;
+        readonly bool _onlyUseUppercase;
 
         protected EncoderBase(string alphabet, Regex validator)
         {
             Alphabet = alphabet;
             Validator = validator;
-            AlphabetLength = Alphabet.Length;
+            _alphabetLength = Alphabet.Length;
+            _onlyUseUppercase = Alphabet == Alphabet.ToUpper();
         }
 
         public BigInteger Decode(string encoded)
@@ -26,13 +26,13 @@ namespace Serials.Common
             if (string.IsNullOrWhiteSpace(encoded))
                 throw new ArgumentException("Cannot be null or empty", nameof(encoded));
 
-            var upperInput = encoded.ToUpper();
+            var sanitizedInput = (_onlyUseUppercase) ? encoded.ToUpper() : encoded;
             BigInteger result = 0;
-            for (int i = upperInput.Length - 1, j = 0; i >= 0; i--, j++)
+            for (int i = sanitizedInput.Length - 1, j = 0; i >= 0; i--, j++)
             {
-                var c = upperInput[i];
+                var c = sanitizedInput[i];
                 var alphabetIndex = Alphabet.IndexOf(c);
-                var multiplier = BigInteger.Pow(AlphabetLength, j);
+                var multiplier = BigInteger.Pow(_alphabetLength, j);
                 result += (alphabetIndex * multiplier);
             }
             return result;
@@ -43,13 +43,13 @@ namespace Serials.Common
             if (string.IsNullOrWhiteSpace(encoded))
                 throw new ArgumentException("Cannot be null or empty", nameof(encoded));
 
-            var upperInput = encoded.ToUpper();
+            var sanitizedInput = (_onlyUseUppercase) ? encoded.ToUpper() : encoded;
             ulong result = 0;
-            for (int i = upperInput.Length - 1, j = 0; i >= 0; i--, j++)
+            for (int i = sanitizedInput.Length - 1, j = 0; i >= 0; i--, j++)
             {
-                var c = upperInput[i];
+                var c = sanitizedInput[i];
                 var alphabetIndex = (ulong)Alphabet.IndexOf(c);
-                var multiplier = (ulong)Math.Pow(AlphabetLength, j);
+                var multiplier = (ulong)Math.Pow(_alphabetLength, j);
                 result += alphabetIndex * multiplier;
             }
             return result;
@@ -64,9 +64,9 @@ namespace Serials.Common
             var result = new Stack<char>();
             while (currentVal != 0)
             {
-                var index = (int)(currentVal % AlphabetLength);
+                var index = (int)(currentVal % _alphabetLength);
                 result.Push(Alphabet[index]);
-                currentVal /= AlphabetLength;
+                currentVal /= _alphabetLength;
             }
 
             return new string(result.ToArray());
@@ -81,9 +81,9 @@ namespace Serials.Common
             var result = new Stack<char>();
             while (currentVal != 0)
             {
-                var index = (int)(currentVal % (ulong)AlphabetLength);
+                var index = (int)(currentVal % (ulong)_alphabetLength);
                 result.Push(Alphabet[index]);
-                currentVal /= (ulong)AlphabetLength;
+                currentVal /= (ulong)_alphabetLength;
             }
 
             return new string(result.ToArray());
