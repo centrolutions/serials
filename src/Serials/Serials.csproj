@@ -9,7 +9,12 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/centrolutions/serials</PackageProjectUrl>
     <RepositoryUrl>https://github.com/centrolutions/serials</RepositoryUrl>
-    <PackageReleaseNotes>Added alternate encoders, minimum length, and prefixes.</PackageReleaseNotes>
+    <PackageReleaseNotes>Breaking changes:
+	Upgraded to netstandard2.1 from netstandard2.0. This package is not compatible with older, unsupported versions of .NET.
+	
+	Other changes:
+	Added new Base62 encoder as an option for encoding ulong and BigInteger values.
+	</PackageReleaseNotes>
     <AssemblyVersion>1.4.0.0</AssemblyVersion>
     <FileVersion>1.4.0.0</FileVersion>
     <Version>1.4.0</Version>
