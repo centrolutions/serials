@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Jason Williams</Authors>
-    <Company></Company>
+    <Company>
+    </Company>
     <Description>A library of types created to generate and mutate alpha-numeric sequences like serial numbers, invoices numbers, and record keeping reference numbers.</Description>
     <Copyright>Jason Williams</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -14,9 +14,8 @@
     <FileVersion>1.3.0.0</FileVersion>
     <Version>1.3.0</Version>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-
 </Project>
