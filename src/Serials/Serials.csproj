@@ -1,22 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Jason Williams</Authors>
-    <Company></Company>
+    <Company>
+    </Company>
     <Description>A library of types created to generate and mutate alpha-numeric sequences like serial numbers, invoices numbers, and record keeping reference numbers.</Description>
     <Copyright>Jason Williams</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/centrolutions/serials</PackageProjectUrl>
     <RepositoryUrl>https://github.com/centrolutions/serials</RepositoryUrl>
-    <PackageReleaseNotes>Added alternate encoders, minimum length, and prefixes.</PackageReleaseNotes>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
-    <Version>1.3.0</Version>
+    <PackageReleaseNotes>Breaking changes:
+	Upgraded to netstandard2.1 from netstandard2.0. This package is not compatible with older, unsupported versions of .NET.
+	
+	Other changes:
+	Added new Base62 encoder as an option for encoding ulong and BigInteger values.
+	</PackageReleaseNotes>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
+    <Version>1.4.0</Version>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-
 </Project>
