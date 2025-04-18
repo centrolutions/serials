@@ -8,9 +8,9 @@ Hello, I'm Jason Williams. Serials was created to provide a data type to manage 
 Nuget Package [Serials](https://www.nuget.org/packages/Serials/)
 
 ```powershell
-Install-Package Serials
+dotnet add package Serials
 ```
-Minimum Requirements: **.NET Standard 2.0**.
+Minimum Requirements: **.NET Standard 2.1**.
 
 ## Usage
 ```csharp
